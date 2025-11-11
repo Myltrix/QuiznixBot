@@ -2281,7 +2281,6 @@ questions_database = {
 }
 
 def populate_databases():
-    """Заполнение базы данных вопросами"""
     cursor = db_connection.cursor()
 
     cursor.execute("SELECT COUNT(*) FROM questions")
@@ -2331,7 +2330,6 @@ def get_user_profile(user_id):
     return user_profiles[user_id]
 
 def save_user_profile_to_db(user_id, user_profile):
-    """Сохраняет профиль пользователя в базу данных"""
     cursor = db_connection.cursor()
     try:
         cursor.execute('''
@@ -2344,7 +2342,6 @@ def save_user_profile_to_db(user_id, user_profile):
         logger.error(f"Ошибка при сохранении профиля: {e}")
 
 def load_user_profile_from_db(user_id):
-    """Загружает профиль пользователя из базы данных"""
     cursor = db_connection.cursor()
     try:
         cursor.execute('''
@@ -2370,14 +2367,12 @@ def get_or_create_user(user_id, username, first_name, last_name, private_chat_id
     db_connection.commit()
 
 def get_user_quiz(user_id, chat_id, chat_type):
-    """Получает или создает викторину для пользователя"""
     quiz_key = f"{chat_id}_{user_id}"
     if quiz_key not in active_quizzes:
         active_quizzes[quiz_key] = UserQuiz(user_id, chat_id, chat_type)
     return active_quizzes[quiz_key]
 
 def get_chat_session(user_id):
-    """Получает или создает чат-сессию для пользователя"""
     if user_id not in user_chat_sessions:
         cursor = db_connection.cursor()
         cursor.execute('''
@@ -2395,7 +2390,6 @@ def get_chat_session(user_id):
     return user_chat_sessions[user_id]
 
 def save_chat_session(user_id, messages):
-    """Сохраняет чат-сессию в базу данных"""
     cursor = db_connection.cursor()
     try:
         cursor.execute('''
@@ -2408,7 +2402,6 @@ def save_chat_session(user_id, messages):
         logger.error(f"Ошибка при сохранении чат-сессии: {e}")
 
 def clear_chat_session(user_id):
-    """Очищает чат-сессию пользователя"""
     cursor = db_connection.cursor()
     try:
         cursor.execute('DELETE FROM chat_sessions WHERE user_id = ?', (user_id,))
@@ -2419,7 +2412,6 @@ def clear_chat_session(user_id):
         logger.error(f"Ошибка при очистке чат-сессии: {e}")
 
 def get_saved_ai_response(user_id, question):
-    """Проверяет, есть ли сохраненный ответ на вопрос"""
     cursor = db_connection.cursor()
     cursor.execute('''
         SELECT response FROM ai_responses 
@@ -2431,7 +2423,6 @@ def get_saved_ai_response(user_id, question):
     return result[0] if result else None
 
 def save_ai_response(user_id, question, response, liked=True):
-    """Сохраняет ответ ИИ в базу данных"""
     cursor = db_connection.cursor()
     try:
         cursor.execute('''
@@ -2444,7 +2435,6 @@ def save_ai_response(user_id, question, response, liked=True):
         logger.error(f"Ошибка при сохранении ответа ИИ: {e}")
 
 def increment_ai_response_usage(response_id):
-    """Увеличивает счетчик использования ответа"""
     cursor = db_connection.cursor()
     try:
         cursor.execute('''
@@ -2455,7 +2445,6 @@ def increment_ai_response_usage(response_id):
         logger.error(f"Ошибка при обновлении счетчика использования: {e}")
 
 def query_gemini(user_id, question):
-    """Запрос к Gemini API с улучшенной обработкой и памятью"""
     try:
         saved_response = get_saved_ai_response(user_id, question)
         if saved_response:
