@@ -1,1 +1,1 @@
-QuiznixBot — это интерактивный и умный Telegram-бот, написанный на Python. Он объединяет классическую викторину, соревновательные элементы и ответы от искусственного интеллекта, превращая обучение в захватывающий игровой процесс.
+QuiznixBot is an interactive Telegram bot written in Python. The bot asks questions, then answers, and awards points. It supports different categories and difficulty levels.
