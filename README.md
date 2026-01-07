@@ -1,7 +1,7 @@
 <table>
   <tr>
     <td width="35%">
-      <img src="QuiznixBot.png" alt="QuiznixBot Admin Panel" width="100%">
+      <img src="QuiznixBot.png" alt="QuiznixBot" width="100%">
     </td>
     <td>
       <h1>QuiznixBot</h1>
