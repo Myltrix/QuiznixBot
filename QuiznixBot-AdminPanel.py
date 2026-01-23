@@ -18,7 +18,7 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtCore import QTimer, QThread, pyqtSignal, Qt, QDate
 from PyQt5.QtGui import QFont, QColor, QBrush, QIcon, QPalette
 
-BOT_TOKEN = "TOKEN"
+BOT_TOKEN = "8208989400:AAFhtAdu3XWZSo8U5nSd4vED8OV_99OK4bc"
 ADMIN_IDS = [IDS]
 DATABASE_PATH = "quiz_bot.db"
 
@@ -2417,4 +2417,5 @@ def main():
         sys.exit(0)
 
 if __name__ == '__main__':
+
     main()
