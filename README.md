@@ -6,7 +6,7 @@
     <td style="padding-left: 30px;">
       <h1 style="color: #2a7de1; margin-top: 0;">QuiznixBot</h1>
       <p style="font-size: 16px; line-height: 1.6; color: #333;">
-        QuiznixBot is an interactive Telegram bot written in Python. The bot asks questions, then answers, and awards points. It supports different categories and difficulty levels.
+        QuiznixBot is an interactive Telegram bot that leverages the Gemini AI to generate and check quiz questions. It supports various categories and difficulty levels, awarding points for correct answers.
       </p>
       <p style="font-size: 16px;">
         <strong style="color: #2a7de1;">Bot Link:</strong><br>
@@ -17,7 +17,8 @@
       <p style="font-size: 16px;">
         <strong style="color: #2a7de1;">Built with:</strong><br>
         <div style="margin-top: 10px;">
-          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" alt="Python" title="Python" width="56" height="56" style="vertical-align: middle; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" alt="Python" title="Python" width="56" height="56" style="margin-right: 15px; vertical-align: middle; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));">
+          <img src="https://seeklogo.com/images/G/gemini-api-logo-8B3448935F-seeklogo.com.png?v=638454866670000000" alt="Gemini API" title="Gemini API" width="56" height="56" style="vertical-align: middle; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));">
         </div>
       </p>
     </td>
