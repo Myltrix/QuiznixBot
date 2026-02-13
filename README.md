@@ -32,7 +32,7 @@
 ## 1. Clone the repository
 
 ```bash
-git clone https://github.com/your-repo/AIBot.git
+git clone https://github.com/Myltrix/AIBot.git
 cd QuiznixBot
 ```
 
