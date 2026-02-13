@@ -6,7 +6,7 @@
     <td style="padding-left: 30px;">
       <h1 style="color: #2a7de1; margin-top: 0;">QuiznixBot</h1>
       <p style="font-size: 16px; line-height: 1.6; color: #333;">
-        QuiznixBot is a full-featured AI-powered Telegram chatbot built with Python. Powered by Google's Gemini AI, it answers user questions, provides explanations, and includes an interactive quiz mode with a points system across various categories. The project also features a dedicated admin panel for bot management and analytics.
+        QuiznixBot is a powerful AI Telegram bot built with Python and powered by Google’s Gemini AI. It provides smart answers, clear explanations, an interactive quiz with a points system, and a built-in admin panel for full control and analytics.
       </p>
       <p style="font-size: 16px;">
         <strong style="color: #2a7de1;">Bot:</strong><br>
