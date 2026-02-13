@@ -32,7 +32,7 @@
 ## 1. Clone the repository
 
 ```bash
-git clone https://github.com/Myltrix/AIBot.git
+git clone https://github.com/Myltrix/QuiznixBot.git
 cd QuiznixBot
 ```
 
@@ -64,7 +64,7 @@ pip install -r requirements.txt
 Add this token to your environment file (`config.py` or `.env`):
 
 ```env
-TELEGRAM_TOKEN="YOUR_TELEGRAM_BOT_TOKEN"
+bot = telebot.TeleBot('YOUR_TELEGRAM_BOT_TOKEN')
 ```
 
 ---
@@ -86,7 +86,7 @@ TELEGRAM_TOKEN="YOUR_TELEGRAM_BOT_TOKEN"
 Add it to your environment file:
 
 ```env
-GEMINI_API_KEY="YOUR_GEMINI_API_KEY"
+GEMINI_API_KEY = "YOUR_GEMINI_API_KEY"
 ```
 
 ---
@@ -97,5 +97,4 @@ GEMINI_API_KEY="YOUR_GEMINI_API_KEY"
 python QuiznixBot.py
 ```
 
-Your AI-powered Telegram bot is now ready to use.
-
+Your Telegram bot is now ready to use.
