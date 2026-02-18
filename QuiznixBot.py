@@ -19,8 +19,8 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-GEMINI_API_KEY = "API"
-bot = telebot.TeleBot('TOKEN')
+GEMINI_API_KEY = "YOUR_GEMINI_API_KEY"
+bot = telebot.TeleBot('YOUR_TELEGRAM_BOT_TOKEN')
 
 try:
     if GEMINI_API_KEY and GEMINI_API_KEY != "YOUR_GEMINI_API_KEY_HERE":
@@ -3293,5 +3293,6 @@ if __name__ == "__main__":
     except Exception as e:
         logger.error(f"Ошибка при запуске бота: {e}")
         print(f"❌ Произошла ошибка: {e}")
+
 
 
