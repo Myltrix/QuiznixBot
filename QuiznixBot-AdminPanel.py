@@ -18,8 +18,8 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtCore import QTimer, QThread, pyqtSignal, Qt, QDate
 from PyQt5.QtGui import QFont, QColor, QBrush, QIcon, QPalette
 
-BOT_TOKEN = "TOKEN"
-ADMIN_IDS = [IDS]
+BOT_TOKEN = "YOUR_TELEGRAM_BOT_TOKEN"
+ADMIN_IDS = [YOUR_TELGERAM_ID]
 DATABASE_PATH = "quiz_bot.db"
 
 logging.basicConfig(level=logging.INFO)
