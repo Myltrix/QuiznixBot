@@ -28,7 +28,7 @@ logger = logging.getLogger(__name__)
 class LoginDialog(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.setWindowTitle("Авторизация администратора")
+        self.setWindowTitle("Admin Authorization")
         self.setFixedSize(400, 200)
         self.setModal(True)
         
@@ -37,22 +37,22 @@ class LoginDialog(QDialog):
         form_layout = QFormLayout()
         
         self.username_input = QLineEdit()
-        self.username_input.setPlaceholderText("Введите логин")
-        form_layout.addRow("Логин:", self.username_input)
+        self.username_input.setPlaceholderText("Enter username")
+        form_layout.addRow("Username:", self.username_input)
         
         self.password_input = QLineEdit()
-        self.password_input.setPlaceholderText("Введите пароль")
+        self.password_input.setPlaceholderText("Enter password")
         self.password_input.setEchoMode(QLineEdit.Password)
-        form_layout.addRow("Пароль:", self.password_input)
+        form_layout.addRow("Password:", self.password_input)
         
         layout.addLayout(form_layout)
         
         button_layout = QHBoxLayout()
         
-        self.login_btn = QPushButton("Войти")
+        self.login_btn = QPushButton("Login")
         self.login_btn.clicked.connect(self.attempt_login)
         
-        self.cancel_btn = QPushButton("Отмена")
+        self.cancel_btn = QPushButton("Cancel")
         self.cancel_btn.clicked.connect(self.reject)
         
         button_layout.addWidget(self.login_btn)
@@ -68,21 +68,21 @@ class LoginDialog(QDialog):
         password = self.password_input.text().strip()
         
         if not username or not password:
-            QMessageBox.warning(self, "Ошибка", "Заполните все поля")
+            QMessageBox.warning(self, "Error", "Fill in all fields")
             return
         
         self.login_btn.setEnabled(False)
-        self.login_btn.setText("Проверка...")
+        self.login_btn.setText("Checking...")
         
         if self.check_credentials(username, password):
             self.accept()
         else:
-            QMessageBox.warning(self, "Ошибка", "Неверный логин или пароль")
+            QMessageBox.warning(self, "Error", "Invalid username or password")
             self.password_input.clear()
             self.password_input.setFocus()
         
         self.login_btn.setEnabled(True)
-        self.login_btn.setText("Войти")
+        self.login_btn.setText("Login")
     
     def check_credentials(self, username, password):
         try:
@@ -140,7 +140,7 @@ class LoginDialog(QDialog):
             return result
             
         except Exception as e:
-            logger.error(f"Ошибка проверки учетных данных: {e}")
+            logger.error(f"Error checking credentials: {e}")
             return False
 
 class DatabaseManager:
@@ -221,7 +221,7 @@ class QuestionDialog(QDialog):
     def __init__(self, parent=None, question_id=None):
         super().__init__(parent)
         self.question_id = question_id
-        title = "Добавить вопрос" if question_id is None else "Редактировать вопрос"
+        title = "Add Question" if question_id is None else "Edit Question"
         self.setWindowTitle(title)
         self.setFixedSize(500, 400)
         
@@ -230,43 +230,43 @@ class QuestionDialog(QDialog):
         form_layout = QFormLayout()
         
         self.topic_input = QLineEdit()
-        self.topic_input.setPlaceholderText("Например: история, география")
-        form_layout.addRow("Тема:", self.topic_input)
+        self.topic_input.setPlaceholderText("For example: history, geography")
+        form_layout.addRow("Topic:", self.topic_input)
         
         self.question_input = QTextEdit()
         self.question_input.setMaximumHeight(80)
-        self.question_input.setPlaceholderText("Введите текст вопроса")
-        form_layout.addRow("Вопрос:", self.question_input)
+        self.question_input.setPlaceholderText("Enter question text")
+        form_layout.addRow("Question:", self.question_input)
         
         self.options_input = QTextEdit()
         self.options_input.setMaximumHeight(100)
-        self.options_input.setPlaceholderText("Введите варианты ответов через запятую")
-        form_layout.addRow("Варианты ответов:", self.options_input)
+        self.options_input.setPlaceholderText("Enter answer options separated by commas")
+        form_layout.addRow("Answer options:", self.options_input)
         
         self.correct_answer_input = QSpinBox()
         self.correct_answer_input.setMinimum(0)
         self.correct_answer_input.setMaximum(3)
         self.correct_answer_input.setValue(0)
-        form_layout.addRow("Номер правильного ответа (0-3):", self.correct_answer_input)
+        form_layout.addRow("Correct answer number (0-3):", self.correct_answer_input)
         
         self.points_input = QSpinBox()
         self.points_input.setMinimum(1)
         self.points_input.setMaximum(10)
         self.points_input.setValue(5)
-        form_layout.addRow("Баллы:", self.points_input)
+        form_layout.addRow("Points:", self.points_input)
         
         self.difficulty_input = QComboBox()
         self.difficulty_input.addItems(["easy", "medium", "hard"])
-        form_layout.addRow("Сложность:", self.difficulty_input)
+        form_layout.addRow("Difficulty:", self.difficulty_input)
         
         layout.addLayout(form_layout)
         
         button_layout = QHBoxLayout()
         
-        self.save_btn = QPushButton("Сохранить")
+        self.save_btn = QPushButton("Save")
         self.save_btn.clicked.connect(self.save_question)
         
-        self.cancel_btn = QPushButton("Отмена")
+        self.cancel_btn = QPushButton("Cancel")
         self.cancel_btn.clicked.connect(self.reject)
         
         button_layout.addWidget(self.save_btn)
@@ -305,7 +305,7 @@ class QuestionDialog(QDialog):
                     self.difficulty_input.setCurrentIndex(index)
                     
         except Exception as e:
-            logger.error(f"Ошибка загрузки данных вопроса: {e}")
+            logger.error(f"Error loading question data: {e}")
     
     def save_question(self):
         try:
@@ -317,16 +317,16 @@ class QuestionDialog(QDialog):
             difficulty = self.difficulty_input.currentText()
             
             if not all([topic, question, options_text]):
-                QMessageBox.warning(self, "Ошибка", "Заполните все обязательные поля")
+                QMessageBox.warning(self, "Error", "Fill in all required fields")
                 return
             
             options_list = [opt.strip() for opt in options_text.split(",") if opt.strip()]
             if len(options_list) != 4:
-                QMessageBox.warning(self, "Ошибка", "Должно быть ровно 4 варианта ответа")
+                QMessageBox.warning(self, "Error", "Must have exactly 4 answer options")
                 return
             
             if correct_answer >= len(options_list):
-                QMessageBox.warning(self, "Ошибка", "Номер правильного ответа должен быть от 0 до 3")
+                QMessageBox.warning(self, "Error", "Correct answer number must be from 0 to 3")
                 return
             
             options_json = json.dumps(options_list)
@@ -348,14 +348,14 @@ class QuestionDialog(QDialog):
                 result = db.execute_query(query, (topic, question, options_json, correct_answer, points, difficulty, self.question_id))
             
             if result:
-                QMessageBox.information(self, "Успех", "Вопрос сохранен")
+                QMessageBox.information(self, "Success", "Question saved")
                 self.accept()
             else:
-                QMessageBox.critical(self, "Ошибка", "Не удалось сохранить вопрос")
+                QMessageBox.critical(self, "Error", "Could not save question")
                 
         except Exception as e:
-            logger.error(f"Ошибка сохранения вопроса: {e}")
-            QMessageBox.critical(self, "Ошибка", f"Ошибка сохранения: {e}")
+            logger.error(f"Error saving question: {e}")
+            QMessageBox.critical(self, "Error", f"Error saving: {e}")
 
 class BotStatistics:
     def __init__(self, db_manager):
@@ -605,7 +605,7 @@ class BotStatistics:
             VALUES (?, ?, ?, ?, ?, ?)
             """
             result = self.db.execute_query(query, (
-                user_id, username or "", first_name or "", last_name or "", admin_id, reason or "Не указана"
+                user_id, username or "", first_name or "", last_name or "", admin_id, reason or "Not specified"
             ))
             
             return result is not None
@@ -729,18 +729,18 @@ class TelegramAPI:
             return None
     
     def send_ban_notification(self, user_id, reason=""):
-        message = f"🚫 <b>Вы были заблокированы в боте!</b>\n\n"
+        message = f"🚫 <b>You have been banned from the bot!</b>\n\n"
         if reason:
-            message += f"<b>Причина:</b> {reason}\n\n"
-        message += "❌ Вы больше не можете использовать функции бота.\n"
-        message += "📞 Для разблокировки обратитесь к администратору."
+            message += f"<b>Reason:</b> {reason}\n\n"
+        message += "❌ You can no longer use the bot's functions.\n"
+        message += "📞 For unban, contact the administrator."
         
         return self.send_message(user_id, message)
     
     def send_unban_notification(self, user_id):
-        message = f"✅ <b>Вы были разблокированы!</b>\n\n"
-        message += "🎉 Теперь вы снова можете использовать все функции бота.\n"
-        message += "Спасибо за понимание!"
+        message = f"✅ <b>You have been unbanned!</b>\n\n"
+        message += "🎉 You can now use all bot functions again.\n"
+        message += "Thank you for your understanding!"
         
         return self.send_message(user_id, message)
 
@@ -777,21 +777,21 @@ class BroadcastWorker(QThread):
                 check_result = self.db.execute_select("SELECT 1 FROM banned_users WHERE user_id = ?", (user_id,))
                 if check_result:
                     banned += 1
-                    results.append(f"🚫 {user_id}: Заблокирован (пропущен)")
+                    results.append(f"🚫 {user_id}: Banned (skipped)")
                     continue
                 
                 result = self.telegram.send_message(user_id, self.message_text)
                 
                 if result and result.get('ok'):
                     success += 1
-                    results.append(f"✅ {user_id}: Успешно")
+                    results.append(f"✅ {user_id}: Success")
                 else:
                     failed += 1
                     error = result.get('description', 'Unknown error') if result else 'Timeout'
-                    results.append(f"❌ {user_id}: Ошибка - {error}")
+                    results.append(f"❌ {user_id}: Error - {error}")
                 
                 progress = int((i + 1) / total * 100)
-                status = f"Отправлено: {i+1}/{total} | Успешно: {success} | Ошибок: {failed}"
+                status = f"Sent: {i+1}/{total} | Success: {success} | Errors: {failed}"
                 self.progress.emit(progress, i + 1, status)
                 
                 self.msleep(100)
@@ -820,14 +820,14 @@ class StatisticsTab(QWidget):
     def init_ui(self):
         layout = QVBoxLayout(self)
         
-        title = QLabel("📈 Детальная статистика")
+        title = QLabel("📈 Detailed Statistics")
         title.setFont(QFont('Arial', 16, QFont.Bold))
         title.setAlignment(Qt.AlignCenter)
         layout.addWidget(title)
         
         refresh_layout = QHBoxLayout()
         
-        self.refresh_btn = QPushButton("🔄 Обновить всю статистику")
+        self.refresh_btn = QPushButton("🔄 Refresh All Statistics")
         self.refresh_btn.clicked.connect(self.load_statistics)
         
         refresh_layout.addWidget(self.refresh_btn)
@@ -840,16 +840,16 @@ class StatisticsTab(QWidget):
         top_widget = QWidget()
         top_layout = QVBoxLayout(top_widget)
         
-        general_stats_group = QGroupBox("📊 Общая статистика бота")
+        general_stats_group = QGroupBox("📊 General Bot Statistics")
         general_stats_layout = QGridLayout(general_stats_group)
         
-        self.total_users_label = QLabel("Всего пользователей: 0")
-        self.active_users_label = QLabel("Активных пользователей: 0")
-        self.banned_users_label = QLabel("Заблокированных: 0")
-        self.total_points_label = QLabel("Всего баллов: 0")
-        self.total_games_label = QLabel("Всего игр: 0")
-        self.total_questions_label = QLabel("Всего вопросов: 0")
-        self.correct_answers_label = QLabel("Правильных ответов: 0")
+        self.total_users_label = QLabel("Total users: 0")
+        self.active_users_label = QLabel("Active users: 0")
+        self.banned_users_label = QLabel("Banned: 0")
+        self.total_points_label = QLabel("Total points: 0")
+        self.total_games_label = QLabel("Total games: 0")
+        self.total_questions_label = QLabel("Total questions: 0")
+        self.correct_answers_label = QLabel("Correct answers: 0")
         
         general_stats_layout.addWidget(self.total_users_label, 0, 0)
         general_stats_layout.addWidget(self.active_users_label, 0, 1)
@@ -861,14 +861,14 @@ class StatisticsTab(QWidget):
         
         top_layout.addWidget(general_stats_group)
         
-        top_users_group = QGroupBox("🏆 Топ пользователей")
+        top_users_group = QGroupBox("🏆 Top Users")
         top_users_layout = QVBoxLayout(top_users_group)
         
         metric_layout = QHBoxLayout()
-        metric_layout.addWidget(QLabel("Сортировка по:"))
+        metric_layout.addWidget(QLabel("Sort by:"))
         
         self.metric_combo = QComboBox()
-        self.metric_combo.addItems(["Баллы", "Игры", "Точность", "Активность"])
+        self.metric_combo.addItems(["Points", "Games", "Accuracy", "Activity"])
         self.metric_combo.currentTextChanged.connect(self.load_top_users)
         
         metric_layout.addWidget(self.metric_combo)
@@ -879,7 +879,7 @@ class StatisticsTab(QWidget):
         self.top_users_table = QTableWidget()
         self.top_users_table.setColumnCount(7)
         self.top_users_table.setHorizontalHeaderLabels([
-            "№", "User ID", "Username", "Баллы", "Игры", "Точность", "Последняя активность"
+            "#", "User ID", "Username", "Points", "Games", "Accuracy", "Last Activity"
         ])
         self.top_users_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         
@@ -890,19 +890,19 @@ class StatisticsTab(QWidget):
         bottom_widget = QWidget()
         bottom_layout = QVBoxLayout(bottom_widget)
         
-        detailed_stats_group = QGroupBox("👥 Детальная статистика пользователей")
+        detailed_stats_group = QGroupBox("👥 Detailed User Statistics")
         detailed_layout = QVBoxLayout(detailed_stats_group)
         
         search_layout = QHBoxLayout()
-        search_layout.addWidget(QLabel("Поиск пользователя:"))
+        search_layout.addWidget(QLabel("Search user:"))
         
         self.user_search_input = QLineEdit()
-        self.user_search_input.setPlaceholderText("Введите User ID для поиска...")
+        self.user_search_input.setPlaceholderText("Enter User ID to search...")
         
-        self.search_btn = QPushButton("🔍 Поиск")
+        self.search_btn = QPushButton("🔍 Search")
         self.search_btn.clicked.connect(self.search_user_stats)
         
-        self.show_all_btn = QPushButton("👁️ Показать всех")
+        self.show_all_btn = QPushButton("👁️ Show All")
         self.show_all_btn.clicked.connect(self.show_all_users_stats)
         
         search_layout.addWidget(self.user_search_input)
@@ -915,8 +915,8 @@ class StatisticsTab(QWidget):
         self.detailed_stats_table = QTableWidget()
         self.detailed_stats_table.setColumnCount(10)
         self.detailed_stats_table.setHorizontalHeaderLabels([
-            "User ID", "Username", "Имя", "Фамилия", "Баллы", "Игры", 
-            "Вопросы", "Правильно", "Точность%", "Статус"
+            "User ID", "Username", "First Name", "Last Name", "Points", "Games", 
+            "Questions", "Correct", "Accuracy%", "Status"
         ])
         self.detailed_stats_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         
@@ -939,13 +939,13 @@ class StatisticsTab(QWidget):
         try:
             stats = self.stats.get_bot_stats()
             
-            self.total_users_label.setText(f"Всего пользователей: {stats['total_users']}")
-            self.active_users_label.setText(f"Активных пользователей: {stats['active_users']}")
-            self.banned_users_label.setText(f"Заблокированных: {stats['banned_users']}")
-            self.total_points_label.setText(f"Всего баллов: {stats['total_points']}")
-            self.total_games_label.setText(f"Всего игр: {stats['total_games']}")
-            self.total_questions_label.setText(f"Всего вопросов: {stats['total_questions']}")
-            self.correct_answers_label.setText(f"Правильных ответов: {stats['total_correct']}")
+            self.total_users_label.setText(f"Total users: {stats['total_users']}")
+            self.active_users_label.setText(f"Active users: {stats['active_users']}")
+            self.banned_users_label.setText(f"Banned: {stats['banned_users']}")
+            self.total_points_label.setText(f"Total points: {stats['total_points']}")
+            self.total_games_label.setText(f"Total games: {stats['total_games']}")
+            self.total_questions_label.setText(f"Total questions: {stats['total_questions']}")
+            self.correct_answers_label.setText(f"Correct answers: {stats['total_correct']}")
             
         except Exception as e:
             print(f"❌ Error loading general stats: {e}")
@@ -953,10 +953,10 @@ class StatisticsTab(QWidget):
     def load_top_users(self):
         try:
             metric_map = {
-                "Баллы": "points",
-                "Игры": "games", 
-                "Точность": "accuracy",
-                "Активность": "activity"
+                "Points": "points",
+                "Games": "games", 
+                "Accuracy": "accuracy",
+                "Activity": "activity"
             }
             
             selected_metric = metric_map.get(self.metric_combo.currentText(), "points")
@@ -971,11 +971,11 @@ class StatisticsTab(QWidget):
                 
                 self.top_users_table.setItem(row, 0, QTableWidgetItem(str(row + 1)))
                 self.top_users_table.setItem(row, 1, QTableWidgetItem(str(user_id)))
-                self.top_users_table.setItem(row, 2, QTableWidgetItem(username or f"{first_name or ''} {last_name or ''}".strip() or "Неизвестно"))
+                self.top_users_table.setItem(row, 2, QTableWidgetItem(username or f"{first_name or ''} {last_name or ''}".strip() or "Unknown"))
                 self.top_users_table.setItem(row, 3, QTableWidgetItem(str(points)))
                 self.top_users_table.setItem(row, 4, QTableWidgetItem(str(games)))
                 self.top_users_table.setItem(row, 5, QTableWidgetItem(f"{accuracy:.1f}%"))
-                self.top_users_table.setItem(row, 6, QTableWidgetItem(last_activity.split()[0] if last_activity else "Неизвестно"))
+                self.top_users_table.setItem(row, 6, QTableWidgetItem(last_activity.split()[0] if last_activity else "Unknown"))
                 
                 if row < 3:
                     for col in range(self.top_users_table.columnCount()):
@@ -1002,19 +1002,19 @@ class StatisticsTab(QWidget):
         try:
             user_id = self.user_search_input.text().strip()
             if not user_id:
-                QMessageBox.warning(self, "Ошибка", "Введите User ID для поиска")
+                QMessageBox.warning(self, "Error", "Enter User ID to search")
                 return
             
             detailed_stats = self.stats.get_detailed_user_stats(user_id)
             if not detailed_stats:
-                QMessageBox.information(self, "Информация", f"Пользователь с ID {user_id} не найден")
+                QMessageBox.information(self, "Info", f"User with ID {user_id} not found")
                 return
             
             self.display_detailed_stats(detailed_stats)
             
         except Exception as e:
             print(f"❌ Error searching user stats: {e}")
-            QMessageBox.critical(self, "Ошибка", f"Ошибка поиска: {e}")
+            QMessageBox.critical(self, "Error", f"Search error: {e}")
     
     def display_detailed_stats(self, stats_data):
         try:
@@ -1024,7 +1024,7 @@ class StatisticsTab(QWidget):
                 user_id, username, first_name, last_name, points, games, questions, correct, incorrect, avg_score, last_activity, created_at, is_banned = user
                 
                 accuracy = (correct / questions * 100) if questions > 0 else 0
-                status = "🚫 Заблокирован" if is_banned else "✅ Активен"
+                status = "🚫 Banned" if is_banned else "✅ Active"
                 
                 self.detailed_stats_table.setItem(row, 0, QTableWidgetItem(str(user_id)))
                 self.detailed_stats_table.setItem(row, 1, QTableWidgetItem(username or ""))
@@ -1053,7 +1053,7 @@ class UserManagementDialog(QDialog):
         self.stats = BotStatistics(self.db_manager)
         self.telegram = TelegramAPI(BOT_TOKEN)
         
-        self.setWindowTitle(f"Управление пользователем {user_id}" if user_id else "Управление пользователем")
+        self.setWindowTitle(f"User Management - {user_id}" if user_id else "User Management")
         self.setFixedSize(500, 400)
         
         self.init_ui()
@@ -1062,33 +1062,33 @@ class UserManagementDialog(QDialog):
     def init_ui(self):
         layout = QVBoxLayout()
         
-        info_group = QGroupBox("Информация о пользователе")
+        info_group = QGroupBox("User Information")
         info_layout = QFormLayout(info_group)
         
-        self.user_id_label = QLabel(str(self.user_id) if self.user_id else "Неизвестно")
-        self.username_label = QLabel("Загрузка...")
-        self.name_label = QLabel("Загрузка...")
-        self.points_label = QLabel("Загрузка...")
-        self.status_label = QLabel("Загрузка...")
+        self.user_id_label = QLabel(str(self.user_id) if self.user_id else "Unknown")
+        self.username_label = QLabel("Loading...")
+        self.name_label = QLabel("Loading...")
+        self.points_label = QLabel("Loading...")
+        self.status_label = QLabel("Loading...")
         
         info_layout.addRow("User ID:", self.user_id_label)
         info_layout.addRow("Username:", self.username_label)
-        info_layout.addRow("Имя:", self.name_label)
-        info_layout.addRow("Баллы:", self.points_label)
-        info_layout.addRow("Статус:", self.status_label)
+        info_layout.addRow("Name:", self.name_label)
+        info_layout.addRow("Points:", self.points_label)
+        info_layout.addRow("Status:", self.status_label)
         
         layout.addWidget(info_group)
         
-        actions_group = QGroupBox("Действия")
+        actions_group = QGroupBox("Actions")
         actions_layout = QVBoxLayout(actions_group)
         
-        self.ban_btn = QPushButton("🚫 Заблокировать пользователя")
+        self.ban_btn = QPushButton("🚫 Ban User")
         self.ban_btn.clicked.connect(self.ban_user)
         
-        self.unban_btn = QPushButton("✅ Разблокировать пользователя")
+        self.unban_btn = QPushButton("✅ Unban User")
         self.unban_btn.clicked.connect(self.unban_user)
         
-        self.send_message_btn = QPushButton("📨 Отправить сообщение")
+        self.send_message_btn = QPushButton("📨 Send Message")
         self.send_message_btn.clicked.connect(self.send_message)
         
         actions_layout.addWidget(self.ban_btn)
@@ -1098,19 +1098,19 @@ class UserManagementDialog(QDialog):
         layout.addWidget(actions_group)
         
         self.reason_input = QLineEdit()
-        self.reason_input.setPlaceholderText("Причина блокировки (необязательно)")
-        layout.addWidget(QLabel("Причина блокировки:"))
+        self.reason_input.setPlaceholderText("Ban reason (optional)")
+        layout.addWidget(QLabel("Ban reason:"))
         layout.addWidget(self.reason_input)
         
         self.message_input = QTextEdit()
         self.message_input.setMaximumHeight(80)
-        self.message_input.setPlaceholderText("Сообщение для пользователя...")
-        layout.addWidget(QLabel("Сообщение:"))
+        self.message_input.setPlaceholderText("Message to user...")
+        layout.addWidget(QLabel("Message:"))
         layout.addWidget(self.message_input)
         
         button_layout = QHBoxLayout()
         
-        self.close_btn = QPushButton("Закрыть")
+        self.close_btn = QPushButton("Close")
         self.close_btn.clicked.connect(self.reject)
         
         button_layout.addWidget(self.close_btn)
@@ -1128,10 +1128,10 @@ class UserManagementDialog(QDialog):
                 user_data = user_stats[0]
                 user_id, username, first_name, last_name, points, games, questions, correct, incorrect, avg_score, last_activity, created_at, is_banned = user_data
                 
-                self.username_label.setText(username or "Не указан")
-                self.name_label.setText(f"{first_name or ''} {last_name or ''}".strip() or "Не указано")
+                self.username_label.setText(username or "Not specified")
+                self.name_label.setText(f"{first_name or ''} {last_name or ''}".strip() or "Not specified")
                 self.points_label.setText(str(points))
-                self.status_label.setText("🚫 Заблокирован" if is_banned else "✅ Активен")
+                self.status_label.setText("🚫 Banned" if is_banned else "✅ Active")
                 
                 self.ban_btn.setEnabled(not is_banned)
                 self.unban_btn.setEnabled(is_banned)
@@ -1146,14 +1146,14 @@ class UserManagementDialog(QDialog):
         try:
             reason = self.reason_input.text().strip()
             if self.stats.ban_user(self.user_id, ADMIN_IDS[0] if ADMIN_IDS else 0, reason):
-                QMessageBox.information(self, "Успех", "Пользователь заблокирован")
+                QMessageBox.information(self, "Success", "User banned")
                 self.telegram.send_ban_notification(self.user_id, reason)
                 self.load_user_data()
             else:
-                QMessageBox.critical(self, "Ошибка", "Не удалось заблокировать пользователя")
+                QMessageBox.critical(self, "Error", "Could not ban user")
                 
         except Exception as e:
-            QMessageBox.critical(self, "Ошибка", f"Ошибка блокировки: {e}")
+            QMessageBox.critical(self, "Error", f"Ban error: {e}")
     
     def unban_user(self):
         if not self.user_id:
@@ -1161,14 +1161,14 @@ class UserManagementDialog(QDialog):
             
         try:
             if self.stats.unban_user(self.user_id):
-                QMessageBox.information(self, "Успех", "Пользователь разблокирован")
+                QMessageBox.information(self, "Success", "User unbanned")
                 self.telegram.send_unban_notification(self.user_id)
                 self.load_user_data()
             else:
-                QMessageBox.critical(self, "Ошибка", "Не удалось разблокировать пользователя")
+                QMessageBox.critical(self, "Error", "Could not unban user")
                 
         except Exception as e:
-            QMessageBox.critical(self, "Ошибка", f"Ошибка разблокировки: {e}")
+            QMessageBox.critical(self, "Error", f"Unban error: {e}")
     
     def send_message(self):
         if not self.user_id:
@@ -1176,19 +1176,19 @@ class UserManagementDialog(QDialog):
             
         message = self.message_input.toPlainText().strip()
         if not message:
-            QMessageBox.warning(self, "Ошибка", "Введите сообщение")
+            QMessageBox.warning(self, "Error", "Enter message")
             return
             
         try:
             result = self.telegram.send_message(self.user_id, message)
             if result and result.get('ok'):
-                QMessageBox.information(self, "Успех", "Сообщение отправлено")
+                QMessageBox.information(self, "Success", "Message sent")
                 self.message_input.clear()
             else:
-                QMessageBox.critical(self, "Ошибка", "Не удалось отправить сообщение")
+                QMessageBox.critical(self, "Error", "Could not send message")
                 
         except Exception as e:
-            QMessageBox.critical(self, "Ошибка", f"Ошибка отправки: {e}")
+            QMessageBox.critical(self, "Error", f"Send error: {e}")
 
 class AIDialogsTab(QWidget):
     def __init__(self, parent=None):
@@ -1200,21 +1200,21 @@ class AIDialogsTab(QWidget):
     def init_ui(self):
         layout = QVBoxLayout(self)
         
-        title = QLabel("💬 Диалоги с ИИ (AI Responses)")
+        title = QLabel("💬 AI Dialogs (AI Responses)")
         title.setFont(QFont('Arial', 16, QFont.Bold))
         title.setAlignment(Qt.AlignCenter)
         layout.addWidget(title)
         
         control_layout = QHBoxLayout()
         
-        self.refresh_btn = QPushButton("🔄 Обновить")
+        self.refresh_btn = QPushButton("🔄 Refresh")
         self.refresh_btn.clicked.connect(self.load_ai_dialogs)
         
         self.search_input = QLineEdit()
-        self.search_input.setPlaceholderText("Поиск по вопросу...")
+        self.search_input.setPlaceholderText("Search by question...")
         self.search_input.textChanged.connect(self.search_dialogs)
         
-        self.add_test_group = QGroupBox("Добавить тестовую запись")
+        self.add_test_group = QGroupBox("Add Test Entry")
         add_test_layout = QFormLayout(self.add_test_group)
         
         self.test_user_id = QLineEdit()
@@ -1223,20 +1223,20 @@ class AIDialogsTab(QWidget):
         
         self.test_question = QTextEdit()
         self.test_question.setMaximumHeight(60)
-        self.test_question.setPlaceholderText("Вопрос")
-        add_test_layout.addRow("Вопрос:", self.test_question)
+        self.test_question.setPlaceholderText("Question")
+        add_test_layout.addRow("Question:", self.test_question)
         
         self.test_answer = QTextEdit()
         self.test_answer.setMaximumHeight(60)
-        self.test_answer.setPlaceholderText("Ответ")
-        add_test_layout.addRow("Ответ:", self.test_answer)
+        self.test_answer.setPlaceholderText("Answer")
+        add_test_layout.addRow("Answer:", self.test_answer)
         
-        self.add_test_btn = QPushButton("💾 Сохранить тестовую запись")
+        self.add_test_btn = QPushButton("💾 Save Test Entry")
         self.add_test_btn.clicked.connect(self.add_test_dialog)
         add_test_layout.addRow(self.add_test_btn)
         
         control_layout.addWidget(self.refresh_btn)
-        control_layout.addWidget(QLabel("Поиск:"))
+        control_layout.addWidget(QLabel("Search:"))
         control_layout.addWidget(self.search_input)
         control_layout.addStretch()
         
@@ -1246,7 +1246,7 @@ class AIDialogsTab(QWidget):
         self.dialogs_table = QTableWidget()
         self.dialogs_table.setColumnCount(7)
         self.dialogs_table.setHorizontalHeaderLabels([
-            "ID", "User ID", "Вопрос", "Ответ", "Лайк", "Использовано", "Дата/Время"
+            "ID", "User ID", "Question", "Answer", "Like", "Used", "Date/Time"
         ])
         self.dialogs_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.dialogs_table.setSelectionBehavior(QTableWidget.SelectRows)
@@ -1254,16 +1254,16 @@ class AIDialogsTab(QWidget):
         
         layout.addWidget(self.dialogs_table)
         
-        details_group = QGroupBox("Детальный просмотр")
+        details_group = QGroupBox("Detailed View")
         details_layout = QVBoxLayout(details_group)
         
-        details_layout.addWidget(QLabel("Полный вопрос:"))
+        details_layout.addWidget(QLabel("Full Question:"))
         self.question_details = QTextEdit()
         self.question_details.setMaximumHeight(80)
         self.question_details.setReadOnly(True)
         details_layout.addWidget(self.question_details)
         
-        details_layout.addWidget(QLabel("Полный ответ:"))
+        details_layout.addWidget(QLabel("Full Answer:"))
         self.answer_details = QTextEdit()
         self.answer_details.setMaximumHeight(80)
         self.answer_details.setReadOnly(True)
@@ -1276,7 +1276,7 @@ class AIDialogsTab(QWidget):
             tables = self.db_manager.execute_select("SELECT name FROM sqlite_master WHERE type='table' AND name='ai_responses'")
             if not tables:
                 self.dialogs_table.setRowCount(0)
-                QMessageBox.information(self, "Информация", "Таблица ai_responses не найдена")
+                QMessageBox.information(self, "Info", "Table ai_responses not found")
                 return
             
             dialogs = self.db_manager.execute_select(
@@ -1302,7 +1302,7 @@ class AIDialogsTab(QWidget):
             
         except Exception as e:
             print(f"❌ Error loading AI dialogs: {e}")
-            QMessageBox.critical(self, "Ошибка", f"Ошибка загрузки диалогов: {e}")
+            QMessageBox.critical(self, "Error", f"Error loading dialogs: {e}")
     
     def search_dialogs(self):
         search_term = self.search_input.text().strip()
@@ -1367,7 +1367,7 @@ class AIDialogsTab(QWidget):
             response = self.test_answer.toPlainText().strip()
             
             if not all([user_id, question, response]):
-                QMessageBox.warning(self, "Ошибка", "Заполните все поля")
+                QMessageBox.warning(self, "Error", "Fill in all fields")
                 return
             
             tables = self.db_manager.execute_select("SELECT name FROM sqlite_master WHERE type='table' AND name='ai_responses'")
@@ -1392,16 +1392,16 @@ class AIDialogsTab(QWidget):
             result = self.db_manager.execute_query(query, (user_id, question, response, 1, 1))
             
             if result:
-                QMessageBox.information(self, "Успех", "Тестовая запись добавлена")
+                QMessageBox.information(self, "Success", "Test entry added")
                 self.test_user_id.clear()
                 self.test_question.clear()
                 self.test_answer.clear()
                 self.load_ai_dialogs()
             else:
-                QMessageBox.critical(self, "Ошибка", "Не удалось добавить запись")
+                QMessageBox.critical(self, "Error", "Could not add entry")
                 
         except Exception as e:
-            QMessageBox.critical(self, "Ошибка", f"Ошибка добавления записи: {e}")
+            QMessageBox.critical(self, "Error", f"Error adding entry: {e}")
 
 class AIFeedbackTab(QWidget):
     def __init__(self, parent=None):
@@ -1413,22 +1413,22 @@ class AIFeedbackTab(QWidget):
     def init_ui(self):
         layout = QVBoxLayout(self)
         
-        title = QLabel("⭐ Оценки ответов ИИ")
+        title = QLabel("⭐ AI Response Ratings")
         title.setFont(QFont('Arial', 16, QFont.Bold))
         title.setAlignment(Qt.AlignCenter)
         layout.addWidget(title)
         
         control_layout = QHBoxLayout()
         
-        self.refresh_btn = QPushButton("🔄 Обновить")
+        self.refresh_btn = QPushButton("🔄 Refresh")
         self.refresh_btn.clicked.connect(self.load_feedback)
         
         self.filter_combo = QComboBox()
-        self.filter_combo.addItems(["Все оценки", "Только понравившиеся", "Только не понравившиеся"])
+        self.filter_combo.addItems(["All ratings", "Only liked", "Only disliked"])
         self.filter_combo.currentTextChanged.connect(self.filter_feedback)
         
         control_layout.addWidget(self.refresh_btn)
-        control_layout.addWidget(QLabel("Фильтр:"))
+        control_layout.addWidget(QLabel("Filter:"))
         control_layout.addWidget(self.filter_combo)
         control_layout.addStretch()
         
@@ -1437,7 +1437,7 @@ class AIFeedbackTab(QWidget):
         self.feedback_table = QTableWidget()
         self.feedback_table.setColumnCount(6)
         self.feedback_table.setHorizontalHeaderLabels([
-            "ID", "User ID", "Вопрос", "Ответ", "Оценка", "Дата/Время"
+            "ID", "User ID", "Question", "Answer", "Rating", "Date/Time"
         ])
         self.feedback_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.feedback_table.setSelectionBehavior(QTableWidget.SelectRows)
@@ -1445,22 +1445,22 @@ class AIFeedbackTab(QWidget):
         
         layout.addWidget(self.feedback_table)
         
-        details_group = QGroupBox("Детальный просмотр и управление")
+        details_group = QGroupBox("Detailed View and Management")
         details_layout = QVBoxLayout(details_group)
         
-        details_layout.addWidget(QLabel("Вопрос целиком:"))
+        details_layout.addWidget(QLabel("Full Question:"))
         self.full_question = QTextEdit()
         self.full_question.setMaximumHeight(60)
         self.full_question.setReadOnly(True)
         details_layout.addWidget(self.full_question)
         
-        details_layout.addWidget(QLabel("Ответ целиком:"))
+        details_layout.addWidget(QLabel("Full Answer:"))
         self.full_answer = QTextEdit()
         self.full_answer.setMaximumHeight(60)
         self.full_answer.setReadOnly(True)
         details_layout.addWidget(self.full_answer)
         
-        self.change_rating_btn = QPushButton("🔄 Изменить оценку")
+        self.change_rating_btn = QPushButton("🔄 Change Rating")
         self.change_rating_btn.clicked.connect(self.change_rating)
         self.change_rating_btn.setEnabled(False)
         details_layout.addWidget(self.change_rating_btn)
@@ -1472,7 +1472,7 @@ class AIFeedbackTab(QWidget):
             tables = self.db_manager.execute_select("SELECT name FROM sqlite_master WHERE type='table' AND name='ai_responses'")
             if not tables:
                 self.feedback_table.setRowCount(0)
-                QMessageBox.information(self, "Информация", "Таблица ai_responses не найдена")
+                QMessageBox.information(self, "Info", "Table ai_responses not found")
                 return
             
             if rating_filter is None:
@@ -1511,16 +1511,16 @@ class AIFeedbackTab(QWidget):
             
         except Exception as e:
             print(f"❌ Error loading feedback: {e}")
-            QMessageBox.critical(self, "Ошибка", f"Ошибка загрузки оценок: {e}")
+            QMessageBox.critical(self, "Error", f"Error loading ratings: {e}")
     
     def filter_feedback(self):
         filter_text = self.filter_combo.currentText()
         
-        if filter_text == "Все оценки":
+        if filter_text == "All ratings":
             self.load_feedback()
-        elif filter_text == "Только понравившиеся":
+        elif filter_text == "Only liked":
             self.load_feedback(1)
-        elif filter_text == "Только не понравившиеся":
+        elif filter_text == "Only disliked":
             self.load_feedback(0)
     
     def show_feedback_details(self):
@@ -1587,14 +1587,14 @@ class AIFeedbackTab(QWidget):
                 self.feedback_table.setItem(row, 4, rating_item)
                 
                 current_filter = self.filter_combo.currentText()
-                if current_filter != "Все оценки":
+                if current_filter != "All ratings":
                     self.filter_feedback()
                 
-                QMessageBox.information(self, "Успех", "Оценка изменена")
+                QMessageBox.information(self, "Success", "Rating changed")
                 
         except Exception as e:
             print(f"❌ Error changing rating: {e}")
-            QMessageBox.critical(self, "Ошибка", f"Не удалось изменить оценку: {e}")
+            QMessageBox.critical(self, "Error", f"Could not change rating: {e}")
 
 class AdminPanel(QMainWindow):
     def __init__(self):
@@ -1712,7 +1712,7 @@ class AdminPanel(QMainWindow):
         title_layout = QHBoxLayout(title_widget)
         title_layout.setContentsMargins(0, 0, 0, 20)
         
-        title = QLabel('Панель управления Telegram ботом')
+        title = QLabel('Telegram Bot Admin Panel')
         title.setFont(QFont('Arial', 18, QFont.Bold))
         title.setStyleSheet("color: #2E7D32; padding: 10px;")
         title.setAlignment(Qt.AlignCenter)
@@ -1733,24 +1733,24 @@ class AdminPanel(QMainWindow):
         self.create_settings_tab()
         
         self.status_bar = self.statusBar()
-        self.status_bar.showMessage('Готов к работе')
+        self.status_bar.showMessage('Ready')
     
     def create_dashboard_tab(self):
         dashboard_widget = QWidget()
         layout = QVBoxLayout(dashboard_widget)
         
-        stats_group = QGroupBox("📊 Общая статистика")
+        stats_group = QGroupBox("📊 General Statistics")
         stats_layout = QGridLayout(stats_group)
         
         stats_cards = [
-            ("👥 Всего пользователей", "total_users_card"),
-            ("🔥 Активных", "active_users_card"), 
-            ("🚫 Заблокированных", "banned_users_card"),
-            ("⭐ Всего баллов", "total_points_card"),
-            ("🎮 Всего игр", "total_games_card"),
-            ("❓ Всего вопросов", "total_questions_card"),
-            ("✅ Правильных ответов", "correct_answers_card"),
-            ("📈 Средняя точность", "avg_accuracy_card")
+            ("👥 Total Users", "total_users_card"),
+            ("🔥 Active", "active_users_card"), 
+            ("🚫 Banned", "banned_users_card"),
+            ("⭐ Total Points", "total_points_card"),
+            ("🎮 Total Games", "total_games_card"),
+            ("❓ Total Questions", "total_questions_card"),
+            ("✅ Correct Answers", "correct_answers_card"),
+            ("📈 Average Accuracy", "avg_accuracy_card")
         ]
         
         self.stats_cards = {}
@@ -1776,19 +1776,19 @@ class AdminPanel(QMainWindow):
         
         layout.addWidget(stats_group)
         
-        actions_group = QGroupBox("⚡ Быстрые действия")
+        actions_group = QGroupBox("⚡ Quick Actions")
         actions_layout = QHBoxLayout(actions_group)
         
-        self.refresh_stats_btn = QPushButton("🔄 Обновить статистику")
+        self.refresh_stats_btn = QPushButton("🔄 Refresh Statistics")
         self.refresh_stats_btn.clicked.connect(self.update_stats)
         
-        self.add_question_btn = QPushButton("➕ Добавить вопрос")
+        self.add_question_btn = QPushButton("➕ Add Question")
         self.add_question_btn.clicked.connect(self.add_question)
         
-        self.broadcast_btn = QPushButton("📢 Создать рассылку")
+        self.broadcast_btn = QPushButton("📢 Create Broadcast")
         self.broadcast_btn.clicked.connect(lambda: self.tabs.setCurrentIndex(3))
         
-        self.stats_btn = QPushButton("📈 Подробная статистика")
+        self.stats_btn = QPushButton("📈 Detailed Statistics")
         self.stats_btn.clicked.connect(lambda: self.tabs.setCurrentIndex(4))
         
         actions_layout.addWidget(self.refresh_stats_btn)
@@ -1799,10 +1799,10 @@ class AdminPanel(QMainWindow):
         
         layout.addWidget(actions_group)
         
-        activity_group = QGroupBox("📅 Последняя активность")
+        activity_group = QGroupBox("📅 Recent Activity")
         activity_layout = QVBoxLayout(activity_group)
         
-        self.activity_label = QLabel("Загрузка данных активности...")
+        self.activity_label = QLabel("Loading activity data...")
         self.activity_label.setWordWrap(True)
         activity_layout.addWidget(self.activity_label)
         
@@ -1810,25 +1810,25 @@ class AdminPanel(QMainWindow):
         
         layout.addStretch()
         
-        self.tabs.addTab(dashboard_widget, "🏠 Дашборд")
+        self.tabs.addTab(dashboard_widget, "🏠 Dashboard")
     
     def create_questions_tab(self):
         questions_widget = QWidget()
         layout = QVBoxLayout(questions_widget)
         
-        control_group = QGroupBox("Управление вопросами")
+        control_group = QGroupBox("Question Management")
         control_layout = QHBoxLayout(control_group)
         
-        self.add_question_btn = QPushButton("➕ Добавить вопрос")
+        self.add_question_btn = QPushButton("➕ Add Question")
         self.add_question_btn.clicked.connect(self.add_question)
         
-        self.edit_question_btn = QPushButton("✏️ Редактировать")
+        self.edit_question_btn = QPushButton("✏️ Edit")
         self.edit_question_btn.clicked.connect(self.edit_question)
         
-        self.delete_question_btn = QPushButton("🗑️ Удалить")
+        self.delete_question_btn = QPushButton("🗑️ Delete")
         self.delete_question_btn.clicked.connect(self.delete_question)
         
-        self.refresh_questions_btn = QPushButton("🔄 Обновить")
+        self.refresh_questions_btn = QPushButton("🔄 Refresh")
         self.refresh_questions_btn.clicked.connect(self.load_questions)
         
         control_layout.addWidget(self.add_question_btn)
@@ -1839,14 +1839,14 @@ class AdminPanel(QMainWindow):
         
         layout.addWidget(control_group)
         
-        search_group = QGroupBox("Поиск и фильтрация")
+        search_group = QGroupBox("Search and Filter")
         search_layout = QHBoxLayout(search_group)
         
         self.question_search_input = QLineEdit()
-        self.question_search_input.setPlaceholderText("Поиск по тексту вопроса...")
+        self.question_search_input.setPlaceholderText("Search by question text...")
         self.question_search_input.textChanged.connect(self.search_questions)
         
-        search_layout.addWidget(QLabel("Поиск:"))
+        search_layout.addWidget(QLabel("Search:"))
         search_layout.addWidget(self.question_search_input)
         
         layout.addWidget(search_group)
@@ -1854,32 +1854,32 @@ class AdminPanel(QMainWindow):
         self.questions_table = QTableWidget()
         self.questions_table.setColumnCount(7)
         self.questions_table.setHorizontalHeaderLabels([
-            "ID", "Тема", "Вопрос", "Варианты ответов", "Правильный ответ", "Баллы", "Сложность"
+            "ID", "Topic", "Question", "Answer Options", "Correct Answer", "Points", "Difficulty"
         ])
         self.questions_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.questions_table.setSelectionBehavior(QTableWidget.SelectRows)
         
         layout.addWidget(self.questions_table)
         
-        self.tabs.addTab(questions_widget, "❓ Вопросы")
+        self.tabs.addTab(questions_widget, "❓ Questions")
     
     def create_users_tab(self):
         users_widget = QWidget()
         layout = QVBoxLayout(users_widget)
         
-        search_group = QGroupBox("Поиск пользователей")
+        search_group = QGroupBox("User Search")
         search_layout = QHBoxLayout(search_group)
         
         self.user_search_input = QLineEdit()
-        self.user_search_input.setPlaceholderText("Поиск по ID, имени или username...")
+        self.user_search_input.setPlaceholderText("Search by ID, name or username...")
         
-        self.user_search_btn = QPushButton("🔍 Поиск")
+        self.user_search_btn = QPushButton("🔍 Search")
         self.user_search_btn.clicked.connect(self.search_users)
         
-        self.show_all_users_btn = QPushButton("👥 Все пользователи")
+        self.show_all_users_btn = QPushButton("👥 All Users")
         self.show_all_users_btn.clicked.connect(self.load_all_users)
         
-        search_layout.addWidget(QLabel("Поиск:"))
+        search_layout.addWidget(QLabel("Search:"))
         search_layout.addWidget(self.user_search_input)
         search_layout.addWidget(self.user_search_btn)
         search_layout.addWidget(self.show_all_users_btn)
@@ -1890,7 +1890,7 @@ class AdminPanel(QMainWindow):
         self.users_table = QTableWidget()
         self.users_table.setColumnCount(6)
         self.users_table.setHorizontalHeaderLabels([
-            "ID", "Username", "Имя", "Фамилия", "Баллы", "Статус"
+            "ID", "Username", "First Name", "Last Name", "Points", "Status"
         ])
         self.users_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.users_table.setSelectionBehavior(QTableWidget.SelectRows)
@@ -1900,13 +1900,13 @@ class AdminPanel(QMainWindow):
         
         user_actions_layout = QHBoxLayout()
         
-        self.manage_user_btn = QPushButton("👤 Управление пользователем")
+        self.manage_user_btn = QPushButton("👤 Manage User")
         self.manage_user_btn.clicked.connect(self.manage_user)
         
-        self.ban_user_btn = QPushButton("🚫 Заблокировать")
+        self.ban_user_btn = QPushButton("🚫 Ban")
         self.ban_user_btn.clicked.connect(self.ban_selected_user)
         
-        self.unban_user_btn = QPushButton("✅ Разблокировать")
+        self.unban_user_btn = QPushButton("✅ Unban")
         self.unban_user_btn.clicked.connect(self.unban_selected_user)
         
         user_actions_layout.addWidget(self.manage_user_btn)
@@ -1916,29 +1916,29 @@ class AdminPanel(QMainWindow):
         
         layout.addLayout(user_actions_layout)
         
-        self.tabs.addTab(users_widget, "👥 Пользователи")
+        self.tabs.addTab(users_widget, "👥 Users")
     
     def create_broadcast_tab(self):
         broadcast_widget = QWidget()
         layout = QVBoxLayout(broadcast_widget)
         
-        message_group = QGroupBox("Сообщение для рассылки")
+        message_group = QGroupBox("Broadcast Message")
         message_layout = QVBoxLayout(message_group)
         
         self.broadcast_message_input = QTextEdit()
         self.broadcast_message_input.setMaximumHeight(150)
-        self.broadcast_message_input.setPlaceholderText("Введите сообщение для рассылки...")
+        self.broadcast_message_input.setPlaceholderText("Enter message for broadcast...")
         message_layout.addWidget(self.broadcast_message_input)
         
         layout.addWidget(message_group)
         
-        control_group = QGroupBox("Управление рассылкой")
+        control_group = QGroupBox("Broadcast Control")
         control_layout = QHBoxLayout(control_group)
         
-        self.start_broadcast_btn = QPushButton("📢 Начать рассылку")
+        self.start_broadcast_btn = QPushButton("📢 Start Broadcast")
         self.start_broadcast_btn.clicked.connect(self.start_broadcast)
         
-        self.stop_broadcast_btn = QPushButton("⏹️ Остановить")
+        self.stop_broadcast_btn = QPushButton("⏹️ Stop")
         self.stop_broadcast_btn.clicked.connect(self.stop_broadcast)
         self.stop_broadcast_btn.setEnabled(False)
         
@@ -1948,19 +1948,19 @@ class AdminPanel(QMainWindow):
         
         layout.addWidget(control_group)
         
-        progress_group = QGroupBox("Прогресс рассылки")
+        progress_group = QGroupBox("Broadcast Progress")
         progress_layout = QVBoxLayout(progress_group)
         
         self.broadcast_progress = QProgressBar()
         self.broadcast_progress.setVisible(False)
         progress_layout.addWidget(self.broadcast_progress)
         
-        self.broadcast_status = QLabel("Готов к рассылке")
+        self.broadcast_status = QLabel("Ready for broadcast")
         progress_layout.addWidget(self.broadcast_status)
         
         layout.addWidget(progress_group)
         
-        results_group = QGroupBox("Результаты рассылки")
+        results_group = QGroupBox("Broadcast Results")
         results_layout = QVBoxLayout(results_group)
         
         self.broadcast_results = QTextEdit()
@@ -1969,44 +1969,44 @@ class AdminPanel(QMainWindow):
         
         layout.addWidget(results_group)
         
-        self.tabs.addTab(broadcast_widget, "📢 Рассылка")
+        self.tabs.addTab(broadcast_widget, "📢 Broadcast")
     
     def create_statistics_tab(self):
         statistics_tab = StatisticsTab()
-        self.tabs.addTab(statistics_tab, "📈 Статистика")
+        self.tabs.addTab(statistics_tab, "📈 Statistics")
     
     def create_ai_dialogs_tab(self):
         ai_dialogs_tab = AIDialogsTab()
-        self.tabs.addTab(ai_dialogs_tab, "💬 Диалоги с ИИ")
+        self.tabs.addTab(ai_dialogs_tab, "💬 AI Dialogs")
     
     def create_ai_feedback_tab(self):
         ai_feedback_tab = AIFeedbackTab()
-        self.tabs.addTab(ai_feedback_tab, "⭐ Оценки ИИ")
+        self.tabs.addTab(ai_feedback_tab, "⭐ AI Ratings")
     
     def create_settings_tab(self):
         settings_widget = QWidget()
         layout = QVBoxLayout(settings_widget)
         
-        bot_settings_group = QGroupBox("Настройки бота")
+        bot_settings_group = QGroupBox("Bot Settings")
         bot_settings_layout = QFormLayout(bot_settings_group)
         
         self.bot_token_input = QLineEdit()
         self.bot_token_input.setText(BOT_TOKEN)
-        bot_settings_layout.addRow("Токен бота:", self.bot_token_input)
+        bot_settings_layout.addRow("Bot Token:", self.bot_token_input)
         
         self.admin_ids_input = QLineEdit()
         self.admin_ids_input.setText(",".join(map(str, ADMIN_IDS)))
-        bot_settings_layout.addRow("ID администраторов:", self.admin_ids_input)
+        bot_settings_layout.addRow("Admin IDs:", self.admin_ids_input)
         
         layout.addWidget(bot_settings_group)
         
-        db_group = QGroupBox("Управление базой данных")
+        db_group = QGroupBox("Database Management")
         db_layout = QVBoxLayout(db_group)
         
-        self.backup_db_btn = QPushButton("💾 Создать резервную копию")
+        self.backup_db_btn = QPushButton("💾 Create Backup")
         self.backup_db_btn.clicked.connect(self.backup_database)
         
-        self.create_admin_btn = QPushButton("👨‍💼 Создать администратора")
+        self.create_admin_btn = QPushButton("👨‍💼 Create Admin")
         self.create_admin_btn.clicked.connect(self.create_admin)
         
         db_layout.addWidget(self.backup_db_btn)
@@ -2016,7 +2016,7 @@ class AdminPanel(QMainWindow):
         
         layout.addStretch()
         
-        self.tabs.addTab(settings_widget, "⚙️ Настройки")
+        self.tabs.addTab(settings_widget, "⚙️ Settings")
     
     def load_all_data(self):
         self.load_questions()
@@ -2029,7 +2029,7 @@ class AdminPanel(QMainWindow):
             tables = self.db_manager.execute_select("SELECT name FROM sqlite_master WHERE type='table' AND name='questions'")
             if not tables:
                 self.questions_table.setRowCount(0)
-                self.status_bar.showMessage('Таблица вопросов не найдена')
+                self.status_bar.showMessage('Questions table not found')
                 return
             
             questions = self.db_manager.execute_select("SELECT id, topic, question, options, correct_answer, points, difficulty FROM questions ORDER BY id")
@@ -2053,10 +2053,10 @@ class AdminPanel(QMainWindow):
                 self.questions_table.setItem(row, 5, QTableWidgetItem(str(points)))
                 self.questions_table.setItem(row, 6, QTableWidgetItem(difficulty))
             
-            self.status_bar.showMessage(f'Загружено {len(questions)} вопросов')
+            self.status_bar.showMessage(f'Loaded {len(questions)} questions')
             
         except Exception as e:
-            self.status_bar.showMessage(f'Ошибка загрузки вопросов: {e}')
+            self.status_bar.showMessage(f'Error loading questions: {e}')
     
     def search_questions(self):
         search_term = self.question_search_input.text().strip()
@@ -2092,10 +2092,10 @@ class AdminPanel(QMainWindow):
                 self.questions_table.setItem(row, 5, QTableWidgetItem(str(points)))
                 self.questions_table.setItem(row, 6, QTableWidgetItem(difficulty))
             
-            self.status_bar.showMessage(f'Найдено {len(questions)} вопросов')
+            self.status_bar.showMessage(f'Found {len(questions)} questions')
             
         except Exception as e:
-            self.status_bar.showMessage(f'Ошибка поиска: {e}')
+            self.status_bar.showMessage(f'Search error: {e}')
     
     def add_question(self):
         dialog = QuestionDialog(self)
@@ -2105,7 +2105,7 @@ class AdminPanel(QMainWindow):
     def edit_question(self):
         selected_rows = self.questions_table.selectionModel().selectedRows()
         if not selected_rows:
-            QMessageBox.warning(self, "Ошибка", "Выберите вопрос для редактирования")
+            QMessageBox.warning(self, "Error", "Select a question to edit")
             return
         
         question_id = int(self.questions_table.item(selected_rows[0].row(), 0).text())
@@ -2116,7 +2116,7 @@ class AdminPanel(QMainWindow):
     def delete_question(self):
         selected_rows = self.questions_table.selectionModel().selectedRows()
         if not selected_rows:
-            QMessageBox.warning(self, "Ошибка", "Выберите вопрос для удаления")
+            QMessageBox.warning(self, "Error", "Select a question to delete")
             return
         
         question_id = int(self.questions_table.item(selected_rows[0].row(), 0).text())
@@ -2124,8 +2124,8 @@ class AdminPanel(QMainWindow):
         
         reply = QMessageBox.question(
             self, 
-            "Подтверждение удаления", 
-            f"Вы уверены, что хотите удалить вопрос?\n\n{question_text[:100]}...",
+            "Confirm Delete", 
+            f"Are you sure you want to delete this question?\n\n{question_text[:100]}...",
             QMessageBox.Yes | QMessageBox.No
         )
         
@@ -2133,12 +2133,12 @@ class AdminPanel(QMainWindow):
             try:
                 result = self.db_manager.execute_query("DELETE FROM questions WHERE id = ?", (question_id,))
                 if result:
-                    QMessageBox.information(self, "Успех", "Вопрос удален")
+                    QMessageBox.information(self, "Success", "Question deleted")
                     self.load_questions()
                 else:
-                    QMessageBox.critical(self, "Ошибка", "Не удалось удалить вопрос")
+                    QMessageBox.critical(self, "Error", "Could not delete question")
             except Exception as e:
-                QMessageBox.critical(self, "Ошибка", f"Ошибка удаления: {e}")
+                QMessageBox.critical(self, "Error", f"Delete error: {e}")
     
     def load_users(self):
         try:
@@ -2148,7 +2148,7 @@ class AdminPanel(QMainWindow):
             for row, user in enumerate(users):
                 user_id, username, first_name, last_name, points, _, created_at, is_banned = user
                 
-                status = "✅ Активен" if not is_banned else "🚫 Заблокирован"
+                status = "✅ Active" if not is_banned else "🚫 Banned"
                 
                 self.users_table.setItem(row, 0, QTableWidgetItem(str(user_id)))
                 self.users_table.setItem(row, 1, QTableWidgetItem(username or ""))
@@ -2157,10 +2157,10 @@ class AdminPanel(QMainWindow):
                 self.users_table.setItem(row, 4, QTableWidgetItem(str(points)))
                 self.users_table.setItem(row, 5, QTableWidgetItem(status))
             
-            self.status_bar.showMessage(f'Загружено {len(users)} пользователей')
+            self.status_bar.showMessage(f'Loaded {len(users)} users')
             
         except Exception as e:
-            self.status_bar.showMessage(f'Ошибка загрузки пользователей: {e}')
+            self.status_bar.showMessage(f'Error loading users: {e}')
     
     def search_users(self):
         search_term = self.user_search_input.text().strip()
@@ -2178,7 +2178,7 @@ class AdminPanel(QMainWindow):
                 points = 0
                 is_banned = False
                 
-                status = "✅ Активен" if not is_banned else "🚫 Заблокирован"
+                status = "✅ Active" if not is_banned else "🚫 Banned"
                 
                 self.users_table.setItem(row, 0, QTableWidgetItem(str(user_id)))
                 self.users_table.setItem(row, 1, QTableWidgetItem(username or ""))
@@ -2187,10 +2187,10 @@ class AdminPanel(QMainWindow):
                 self.users_table.setItem(row, 4, QTableWidgetItem(str(points)))
                 self.users_table.setItem(row, 5, QTableWidgetItem(status))
             
-            self.status_bar.showMessage(f'Найдено {len(users)} пользователей')
+            self.status_bar.showMessage(f'Found {len(users)} users')
             
         except Exception as e:
-            self.status_bar.showMessage(f'Ошибка поиска пользователей: {e}')
+            self.status_bar.showMessage(f'User search error: {e}')
     
     def load_all_users(self):
         self.load_users()
@@ -2198,7 +2198,7 @@ class AdminPanel(QMainWindow):
     def manage_user(self):
         selected_rows = self.users_table.selectionModel().selectedRows()
         if not selected_rows:
-            QMessageBox.warning(self, "Ошибка", "Выберите пользователя для управления")
+            QMessageBox.warning(self, "Error", "Select a user to manage")
             return
         
         user_id = int(self.users_table.item(selected_rows[0].row(), 0).text())
@@ -2209,7 +2209,7 @@ class AdminPanel(QMainWindow):
     def ban_selected_user(self):
         selected_rows = self.users_table.selectionModel().selectedRows()
         if not selected_rows:
-            QMessageBox.warning(self, "Ошибка", "Выберите пользователя для блокировки")
+            QMessageBox.warning(self, "Error", "Select a user to ban")
             return
         
         user_id = int(self.users_table.item(selected_rows[0].row(), 0).text())
@@ -2217,25 +2217,25 @@ class AdminPanel(QMainWindow):
         
         reply = QMessageBox.question(
             self, 
-            "Подтверждение блокировки", 
-            f"Вы уверены, что хотите заблокировать пользователя {username} (ID: {user_id})?",
+            "Confirm Ban", 
+            f"Are you sure you want to ban user {username} (ID: {user_id})?",
             QMessageBox.Yes | QMessageBox.No
         )
         
         if reply == QMessageBox.Yes:
             try:
-                if self.stats.ban_user(user_id, ADMIN_IDS[0] if ADMIN_IDS else 0, "Блокировка администратором"):
-                    QMessageBox.information(self, "Успех", "Пользователь заблокирован")
+                if self.stats.ban_user(user_id, ADMIN_IDS[0] if ADMIN_IDS else 0, "Banned by admin"):
+                    QMessageBox.information(self, "Success", "User banned")
                     self.load_users()
                 else:
-                    QMessageBox.critical(self, "Ошибка", "Не удалось заблокировать пользователя")
+                    QMessageBox.critical(self, "Error", "Could not ban user")
             except Exception as e:
-                QMessageBox.critical(self, "Ошибка", f"Ошибка блокировки: {e}")
+                QMessageBox.critical(self, "Error", f"Ban error: {e}")
     
     def unban_selected_user(self):
         selected_rows = self.users_table.selectionModel().selectedRows()
         if not selected_rows:
-            QMessageBox.warning(self, "Ошибка", "Выберите пользователя для разблокировки")
+            QMessageBox.warning(self, "Error", "Select a user to unban")
             return
         
         user_id = int(self.users_table.item(selected_rows[0].row(), 0).text())
@@ -2243,26 +2243,26 @@ class AdminPanel(QMainWindow):
         
         reply = QMessageBox.question(
             self, 
-            "Подтверждение разблокировки", 
-            f"Вы уверены, что хотите разблокировать пользователя {username} (ID: {user_id})?",
+            "Confirm Unban", 
+            f"Are you sure you want to unban user {username} (ID: {user_id})?",
             QMessageBox.Yes | QMessageBox.No
         )
         
         if reply == QMessageBox.Yes:
             try:
                 if self.stats.unban_user(user_id):
-                    QMessageBox.information(self, "Успех", "Пользователь разблокирован")
+                    QMessageBox.information(self, "Success", "User unbanned")
                     self.load_users()
                 else:
-                    QMessageBox.critical(self, "Ошибка", "Не удалось разблокировать пользователя")
+                    QMessageBox.critical(self, "Error", "Could not unban user")
             except Exception as e:
-                QMessageBox.critical(self, "Ошибка", f"Ошибка разблокировки: {e}")
+                QMessageBox.critical(self, "Error", f"Unban error: {e}")
     
     def start_broadcast(self):
         message = self.broadcast_message_input.toPlainText().strip()
         
         if not message:
-            QMessageBox.warning(self, "Ошибка", "Введите сообщение для рассылки")
+            QMessageBox.warning(self, "Error", "Enter message for broadcast")
             return
         
         self.broadcast_worker = BroadcastWorker(self.db_manager, self.telegram, message)
@@ -2272,14 +2272,14 @@ class AdminPanel(QMainWindow):
         self.start_broadcast_btn.setEnabled(False)
         self.stop_broadcast_btn.setEnabled(True)
         self.broadcast_progress.setVisible(True)
-        self.broadcast_status.setText("Рассылка начата...")
+        self.broadcast_status.setText("Broadcast started...")
         
         self.broadcast_worker.start()
     
     def stop_broadcast(self):
         if self.broadcast_worker and self.broadcast_worker.isRunning():
             self.broadcast_worker.is_running = False
-            self.broadcast_status.setText("Рассылка останавливается...")
+            self.broadcast_status.setText("Stopping broadcast...")
     
     def update_broadcast_progress(self, progress, current, status):
         self.broadcast_progress.setValue(progress)
@@ -2291,32 +2291,32 @@ class AdminPanel(QMainWindow):
         self.broadcast_progress.setVisible(False)
         
         if 'error' in result:
-            self.broadcast_status.setText(f"Ошибка: {result['error']}")
-            QMessageBox.critical(self, "Ошибка", f"Ошибка рассылки: {result['error']}")
+            self.broadcast_status.setText(f"Error: {result['error']}")
+            QMessageBox.critical(self, "Error", f"Broadcast error: {result['error']}")
         else:
             success = result['success']
             failed = result['failed']
             banned = result['banned']
             total = result['total']
             
-            self.broadcast_status.setText(f"Завершено: Успешно {success}, Ошибок {failed}, Заблокировано {banned}")
+            self.broadcast_status.setText(f"Completed: Success {success}, Errors {failed}, Banned {banned}")
             
-            results_text = f"Результаты рассылки:\n"
-            results_text += f"✅ Успешно: {success}\n"
-            results_text += f"❌ Ошибок: {failed}\n"
-            results_text += f"🚫 Заблокировано: {banned}\n"
-            results_text += f"📊 Всего: {total}\n\n"
+            results_text = f"Broadcast Results:\n"
+            results_text += f"✅ Success: {success}\n"
+            results_text += f"❌ Errors: {failed}\n"
+            results_text += f"🚫 Banned: {banned}\n"
+            results_text += f"📊 Total: {total}\n\n"
             
             for i, res in enumerate(result['results'][-20:]):
                 results_text += f"{res}\n"
             
             self.broadcast_results.setPlainText(results_text)
             
-            QMessageBox.information(self, "Успех", 
-                f"Рассылка завершена!\n\n"
-                f"Успешно: {success}\n"
-                f"Ошибок: {failed}\n"
-                f"Заблокировано: {banned}"
+            QMessageBox.information(self, "Success", 
+                f"Broadcast completed!\n\n"
+                f"Success: {success}\n"
+                f"Errors: {failed}\n"
+                f"Banned: {banned}"
             )
     
     def update_stats(self):
@@ -2334,26 +2334,26 @@ class AdminPanel(QMainWindow):
             avg_accuracy = (stats['total_correct'] / stats['total_questions'] * 100) if stats['total_questions'] > 0 else 0
             self.stats_cards['avg_accuracy_card'].setText(f"{avg_accuracy:.1f}%")
             
-            self.status_bar.showMessage('Статистика обновлена')
+            self.status_bar.showMessage('Statistics updated')
             
         except Exception as e:
-            self.status_bar.showMessage(f'Ошибка обновления статистики: {e}')
+            self.status_bar.showMessage(f'Error updating statistics: {e}')
     
     def update_activity(self):
         try:
             daily_activity = self.stats.get_daily_activity(3)
-            activity_text = "<b>Активность за последние 3 дня:</b><br>"
+            activity_text = "<b>Activity for last 3 days:</b><br>"
             
             if daily_activity:
                 for date, new_users, active_users in daily_activity:
-                    activity_text += f"• {date}: +{new_users} новых, {active_users} активных<br>"
+                    activity_text += f"• {date}: +{new_users} new, {active_users} active<br>"
             else:
-                activity_text += "Нет данных об активности"
+                activity_text += "No activity data"
             
             self.activity_label.setText(activity_text)
             
         except Exception as e:
-            self.activity_label.setText(f"Ошибка загрузки активности: {e}")
+            self.activity_label.setText(f"Error loading activity: {e}")
     
     def backup_database(self):
         try:
@@ -2365,10 +2365,10 @@ class AdminPanel(QMainWindow):
             
             shutil.copy2(DATABASE_PATH, backup_path)
             
-            QMessageBox.information(self, "Успех", f"Резервная копия создана: {backup_path}")
+            QMessageBox.information(self, "Success", f"Backup created: {backup_path}")
             
         except Exception as e:
-            QMessageBox.critical(self, "Ошибка", f"Не удалось создать резервную копию: {e}")
+            QMessageBox.critical(self, "Error", f"Could not create backup: {e}")
     
     def create_admin(self):
         try:
@@ -2394,15 +2394,15 @@ class AdminPanel(QMainWindow):
             conn.commit()
             conn.close()
             
-            QMessageBox.information(self, "Успех", 
-                "Администратор создан!\n\n"
-                "Логин: admin\n"
-                "Пароль: admin123\n\n"
-                "Теперь вы можете включить авторизацию в коде."
+            QMessageBox.information(self, "Success", 
+                "Admin created!\n\n"
+                "Username: admin\n"
+                "Password: admin123\n\n"
+                "You can now enable authorization in the code."
             )
             
         except Exception as e:
-            QMessageBox.critical(self, "Ошибка", f"Не удалось создать администратора: {e}")
+            QMessageBox.critical(self, "Error", f"Could not create admin: {e}")
 
 def main():
     app = QApplication(sys.argv)
@@ -2417,7 +2417,4 @@ def main():
         sys.exit(0)
 
 if __name__ == '__main__':
-
     main()
-
-
