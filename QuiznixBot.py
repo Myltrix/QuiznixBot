@@ -20,7 +20,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 GEMINI_API_KEY = "YOUR_GEMINI_API_KEY"
-bot = telebot.TeleBot('YOUR_TELEGRAM_BOT_TOKEN')
+bot = telebot.TeleBot('8226770461:AAFFHmXPWe25H8bUUZYaIT08zTtK28DVZTw')
 
 try:
     if GEMINI_API_KEY and GEMINI_API_KEY != "YOUR_GEMINI_API_KEY_HERE":
