@@ -19,7 +19,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-GEMINI_API_KEY = "YOUR_GEMINI_API_KEY"
+GEMINI_API_KEY = "AIzaSyA8u0FUt-XafGpW2zEzerBSIbx3olm0RuQ"
 bot = telebot.TeleBot('8226770461:AAFFHmXPWe25H8bUUZYaIT08zTtK28DVZTw')
 
 try:
